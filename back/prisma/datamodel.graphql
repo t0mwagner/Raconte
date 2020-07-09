@@ -1,0 +1,36 @@
+type Story {
+  id: ID! @id
+  title: String!
+  synopsis: String
+  public: Boolean!
+  publicationDate: DateTime!
+  tags: [Tag!]
+  chapters: [Chapter!]
+  author: User @relation(name: "StoryAuthor")
+  likedBy: [User!] @relation(name: "StoryLiker")
+}
+type Chapter {
+  id: ID! @id
+  title: String
+  number: Int!
+  publicationDate: DateTime!
+  content: String!
+  author: User @relation(name: "ChapterAuthor")
+  story: Story!
+  likedBy: [User!] @relation(name: "ChapterLiker")
+}
+type User {
+  id: ID! @id
+  name: String!
+  password: String!
+  email: String! @unique
+  stories: [Story!] @relation(name: "StoryAuthor")
+  chapters: [Chapter!] @relation(name: "ChapterAuthor")
+  likesStory: [Story!] @relation(name: "StoryLiker")
+  likesChapter: [Chapter!] @relation(name: "ChapterLiker")
+}
+type Tag {
+    id: ID! @id
+    name: String! @unique
+    stories: [Story!]
+}
